@@ -18,9 +18,10 @@ internal class LevelData
         Position playerPosition = new Position(0,0);
 
         string[] lines = File.ReadAllLines(filename);
-        for (int y = 0; y < lines.Length; y++)
+        
+        for (int y = 3; y < lines.Length + 3; y++) //Setting y to 3 to create an overhead
         {
-            string line = lines[y];
+            string line = lines[y -3];
             for (int x = 0; x < line.Length; x++)
             {
                 char c = line[x];
@@ -51,7 +52,8 @@ internal class LevelData
         }
         foreach (var element in Elements)
         {
-            element.Draw();
+            //if (element.Position.DistanceTo(playerPosition) < 5)
+            element.Draw(playerPosition);
         }
         return playerPosition;
     }

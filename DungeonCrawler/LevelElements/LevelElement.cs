@@ -8,11 +8,14 @@ internal abstract class LevelElement
     public char ElementDesign { get; set; }
     public ConsoleColor Color { get; set; }
     
-    public void Draw()
+    public virtual void Draw(Position playerPosition)
     {
-        Console.ForegroundColor = Color;
-        Console.SetCursorPosition(Position.X, Position.Y);
-        Console.Write(ElementDesign);
-        Console.ResetColor();
+        if (playerPosition.DistanceTo(Position) < 5)
+        {
+            Console.ForegroundColor = Color;
+            Console.SetCursorPosition(Position.X, Position.Y);
+            Console.Write(ElementDesign);
+            Console.ResetColor();
+        }
     }
 }

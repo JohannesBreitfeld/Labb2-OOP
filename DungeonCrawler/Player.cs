@@ -1,7 +1,7 @@
 ﻿
 internal class Player
 {
-    public Position Position { get; set; } 
+    public Position Position { get; set; }
     public char ElementDesign { get; set; }
     public ConsoleColor Color { get; set; }
     public string Name { get; set; }
@@ -16,52 +16,63 @@ internal class Player
         Name = "Player";
         Health = 100;
     }
-    public void Update(ConsoleKeyInfo cki, LevelData levelData)
+    public Position Update(ConsoleKeyInfo cki, LevelData levelData)
     {
-        Position oldPosition = Position;
-        bool isOccupied = false;
+        Position newPosition = NewPosition(cki);
 
+        bool isNewPositionOccupied = GetNewPositionStatus(levelData, newPosition);
+        bool hasMoved = !(newPosition.X == Position.X && newPosition.Y == Position.Y);
+
+        if (!isNewPositionOccupied && hasMoved)
+        {
+            Console.SetCursorPosition(Position.X, Position.Y);
+            Console.Write(' ');
+            Position = newPosition;
+            Draw();
+        }
+        return Position;
+    }
+    private Position NewPosition(ConsoleKeyInfo cki)
+    {
+        Position newPosition = Position;
         switch (cki.Key)
         {
-        case ConsoleKey.LeftArrow:
-            Position = new Position { X = Position.X - 1, Y = Position.Y };
-            break;
-        case ConsoleKey.UpArrow:
-            Position = new Position { X = Position.X , Y = Position.Y -1 };
-            break;
-        case ConsoleKey.DownArrow:
-            Position = new Position { X = Position.X , Y = Position.Y +1 };
-            break;
-        case ConsoleKey.RightArrow:
-            Position = new Position { X = Position.X +1 , Y = Position.Y };
-            break;
+            case ConsoleKey.LeftArrow:
+                newPosition = new Position { X = Position.X - 1, Y = Position.Y };
+                break;
+            case ConsoleKey.UpArrow:
+                newPosition = new Position { X = Position.X, Y = Position.Y - 1 };
+                break;
+            case ConsoleKey.DownArrow:
+                newPosition = new Position { X = Position.X, Y = Position.Y + 1 };
+                break;
+            case ConsoleKey.RightArrow:
+                newPosition = new Position { X = Position.X + 1, Y = Position.Y };
+                break;
+            default:
+                break;
         }
 
-        foreach (var item in levelData.Elements)
+        return newPosition;
+    }
+    private static bool GetNewPositionStatus(LevelData levelData, Position newPosition)
+    {
+        bool isOccupied = false;
+        foreach (var element in levelData.Elements)
         {
-            if (item.Position.X == Position.X && item.Position.Y == Position.Y)
+            if (element.Position.X == newPosition.X && element.Position.Y == newPosition.Y)
             {
                 isOccupied = true;
             }
         }
 
-        if (!isOccupied)
-        {
-            Draw();
-            Console.SetCursorPosition(oldPosition.X, oldPosition.Y);
-            Console.Write(' ');
-        }
-        else
-        {
-            Position = oldPosition;
-        }
+        return isOccupied;
     }
     public void Draw()
-    {
+    { 
         Console.ForegroundColor = Color;
         Console.SetCursorPosition(Position.X, Position.Y);
         Console.Write(ElementDesign);
         Console.ResetColor();
     }
-
 }
