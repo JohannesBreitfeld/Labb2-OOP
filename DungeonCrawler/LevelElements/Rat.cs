@@ -11,7 +11,8 @@ internal class Rat : Enemy
         Color = ConsoleColor.Red;
         Name = "Rat";
         Health = 10;
-        _random = new();
+        AttackDice = new Dice(_random, 1, 6, 3);
+        DefenceDice = new Dice(_random, 1, 6, 1);
     }
 
     public override void Update(Position playerPosition, LevelData levelData)
@@ -20,20 +21,20 @@ internal class Rat : Enemy
 
         Position newPosition = GetNewPosition(direction);
 
-        bool isNextPositionOccupied = GetNewPositionStatus(levelData, newPosition);
+        bool isNewPositionOccupied = GetNewPositionStatus(levelData, newPosition);
 
         if (playerPosition.X == newPosition.X && playerPosition.Y == newPosition.Y)
         {
-            isNextPositionOccupied = true;
+            isNewPositionOccupied = true;
         }
 
-        if (!isNextPositionOccupied)
+        if (!isNewPositionOccupied)
         {
             Console.SetCursorPosition(Position.X, Position.Y);
             Console.Write(' ');
             Position = newPosition;
-            Draw(playerPosition);
         }
+            Draw(playerPosition);
     }
 
     private Position GetNewPosition(MovementDirection direction)

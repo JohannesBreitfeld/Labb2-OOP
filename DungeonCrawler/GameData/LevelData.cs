@@ -52,9 +52,14 @@ internal class LevelData
         }
         foreach (var element in Elements)
         {
-            //if (element.Position.DistanceTo(playerPosition) < 5)
             element.Draw(playerPosition);
         }
         return playerPosition;
+    }
+    public void RemoveEnemy(Enemy enemy)
+    {
+        Console.SetCursorPosition(enemy.Position.X, enemy.Position.Y);
+        Console.Write(' ');
+        _elements.Remove(enemy);
     }
 }

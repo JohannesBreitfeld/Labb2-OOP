@@ -8,12 +8,13 @@ internal class Snake : Enemy
         Color = ConsoleColor.Green;
         Name = "Snake";
         Health = 25;
-        _random = new();
+        AttackDice = new Dice(_random, 3, 4, 2);
+        DefenceDice = new Dice(_random, 1, 8, 5);
     }
 
     public override void Update(Position playerPosition, LevelData levelData)
     {
-        if (Position.DistanceTo(playerPosition) > 2.82)
+        if (Position.DistanceTo(playerPosition) > 2)
         {
             return;
         }
@@ -29,8 +30,8 @@ internal class Snake : Enemy
             Console.SetCursorPosition(Position.X, Position.Y);
             Console.Write(' ');
             Position = newPosition;
-            Draw(playerPosition);
         }
+            Draw(playerPosition);
     }
 
     private Position GetNewPosition(Position playerPosition, bool isCloserHorizontalThanVertical)

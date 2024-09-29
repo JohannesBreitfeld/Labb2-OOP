@@ -1,7 +1,7 @@
 ﻿
 internal abstract class Enemy : LevelElement
 {
-    protected Random _random;
+    protected Random _random = new Random();
     public string Name { get; set; }
     public int Health { get; set; }
     public Dice AttackDice { get; set; }

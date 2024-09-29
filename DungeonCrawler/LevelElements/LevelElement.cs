@@ -1,7 +1,4 @@
 ﻿
-using System.Drawing;
-using System.Xml.Linq;
-
 internal abstract class LevelElement
 {
     public Position Position { get; set; }
