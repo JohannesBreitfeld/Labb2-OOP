@@ -5,9 +5,9 @@ internal abstract class LevelElement
     public char ElementDesign { get; set; }
     public ConsoleColor Color { get; set; }
     
-    public virtual void Draw(Position playerPosition)
+    public virtual void Draw(Player player)
     {
-        if (playerPosition.DistanceTo(Position) < 5)
+        if (player.Position.DistanceTo(Position) < 5)
         {
             Console.ForegroundColor = Color;
             Console.SetCursorPosition(Position.X, Position.Y);

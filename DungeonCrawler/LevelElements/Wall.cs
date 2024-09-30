@@ -7,9 +7,9 @@ internal class Wall : LevelElement
         ElementDesign = '#';
         Color = ConsoleColor.Gray;
     }
-    public override void Draw(Position playerPosition)
+    public override void Draw(Player player)
     {
-        if (playerPosition.DistanceTo(Position) < 5)
+        if (player.Position.DistanceTo(Position) < 5)
         {
             Console.ForegroundColor = Color;
             Console.SetCursorPosition(Position.X, Position.Y);

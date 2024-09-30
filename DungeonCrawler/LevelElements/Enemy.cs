@@ -6,7 +6,8 @@ internal abstract class Enemy : LevelElement
     public int Health { get; set; }
     public Dice AttackDice { get; set; }
     public Dice DefenceDice { get; set; }
-    public abstract void Update(Position playerPosition, LevelData levelData);
+    protected Combat combat = new();
+    public abstract void Update(Player player, LevelData levelData);
     protected static bool GetNewPositionStatus(LevelData levelData, Position newPosition)
     {
         bool isNextPositionOccupied = false;
@@ -20,9 +21,9 @@ internal abstract class Enemy : LevelElement
         }
         return isNextPositionOccupied;
     }
-    public override void Draw(Position playerPosition)
+    public override void Draw(Player player)
     {
-        if (playerPosition.DistanceTo(Position) < 5)
+        if (player.Position.DistanceTo(Position) < 5)
         {
             Console.ForegroundColor = Color;
             Console.SetCursorPosition(Position.X, Position.Y);

@@ -15,7 +15,7 @@ internal class Rat : Enemy
         DefenceDice = new Dice(_random, 1, 6, 1);
     }
 
-    public override void Update(Position playerPosition, LevelData levelData)
+    public override void Update(Player player, LevelData levelData)
     {
         MovementDirection direction = (MovementDirection)_random.Next(0, 4);
 
@@ -23,9 +23,11 @@ internal class Rat : Enemy
 
         bool isNewPositionOccupied = GetNewPositionStatus(levelData, newPosition);
 
-        if (playerPosition.X == newPosition.X && playerPosition.Y == newPosition.Y)
+        if (player.Position.X == newPosition.X && player.Position.Y == newPosition.Y)
         {
             isNewPositionOccupied = true;
+            combat.EnemyAttack(player, this, 1);
+            combat.PlayerAttack(player, this, 2);
         }
 
         if (!isNewPositionOccupied)
@@ -34,7 +36,7 @@ internal class Rat : Enemy
             Console.Write(' ');
             Position = newPosition;
         }
-            Draw(playerPosition);
+            Draw(player);
     }
 
     private Position GetNewPosition(MovementDirection direction)

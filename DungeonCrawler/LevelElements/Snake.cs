@@ -12,16 +12,16 @@ internal class Snake : Enemy
         DefenceDice = new Dice(_random, 1, 8, 5);
     }
 
-    public override void Update(Position playerPosition, LevelData levelData)
+    public override void Update(Player player, LevelData levelData)
     {
-        if (Position.DistanceTo(playerPosition) > 2)
+        if (Position.DistanceTo(player.Position) > 2)
         {
             return;
         }
 
-        bool isCloserHorizontalThanVertical = Position.HorisontalDistanceTo(playerPosition) < Position.VerticalDistanceTo(playerPosition);
+        bool isCloserHorizontalThanVertical = Position.HorisontalDistanceTo(player.Position) < Position.VerticalDistanceTo(player.Position);
 
-        Position newPosition = GetNewPosition(playerPosition, isCloserHorizontalThanVertical);
+        Position newPosition = GetNewPosition(player, isCloserHorizontalThanVertical);
 
         bool isNewPositionOccupied = GetNewPositionStatus(levelData, newPosition);
 
@@ -31,16 +31,16 @@ internal class Snake : Enemy
             Console.Write(' ');
             Position = newPosition;
         }
-            Draw(playerPosition);
+            Draw(player);
     }
 
-    private Position GetNewPosition(Position playerPosition, bool isCloserHorizontalThanVertical)
+    private Position GetNewPosition(Player player, bool isCloserHorizontalThanVertical)
     {
         Position newPosition = Position;
 
         if (isCloserHorizontalThanVertical)
         {
-            bool isLeftofPlayer = (Position.X - playerPosition.X < 0);
+            bool isLeftofPlayer = (Position.X - player.Position.X < 0);
 
             newPosition = isLeftofPlayer
                 ? new Position { X = Position.X - 1, Y = Position.Y }
@@ -48,7 +48,7 @@ internal class Snake : Enemy
         }
         else
         {
-            bool isAbovePlayer = Position.Y - playerPosition.Y < 0;
+            bool isAbovePlayer = Position.Y - player.Position.Y < 0;
             newPosition = isAbovePlayer
                ? new Position { X = Position.X, Y = Position.Y - 1 }
                : new Position { X = Position.X, Y = Position.Y + 1 };
