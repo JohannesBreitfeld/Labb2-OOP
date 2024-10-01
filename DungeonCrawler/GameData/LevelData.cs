@@ -1,25 +1,25 @@
 ﻿
 internal class LevelData
 {
-    private string _path;
+    public string Path { get; init; }
     private List<LevelElement> _elements;
     public IReadOnlyList<LevelElement> Elements => _elements.AsReadOnly();
 
     public LevelData(string path)
     {
         _elements = new List<LevelElement>();
-        _path = path;
-     }
+        Path = path;
+    }
     public Position Load()
     {
-        if (!File.Exists(_path))
+        if (!File.Exists(Path))
         {
-            throw new FileNotFoundException("File could not be found.", _path);
+            throw new FileNotFoundException("File could not be found.", Path);
         }
 
         Position playerPosition = new Position(0, 0);
 
-        string[] lines = File.ReadAllLines(_path);
+        string[] lines = File.ReadAllLines(Path);
 
         for (int y = 3; y < lines.Length + 3; y++) //Setting y to 3 to create an overhead
         {

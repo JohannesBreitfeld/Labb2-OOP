@@ -6,7 +6,7 @@ internal class Player : LevelElement
     public int Health { get; set; } = 100;
     public Dice AttackDice { get; } 
     public Dice DefenceDice { get; }
-    private Combat combat;
+    public Combat combat { get; }
     public Player(Position position, string name)
     {
         Position = position;
@@ -17,7 +17,7 @@ internal class Player : LevelElement
         DefenceDice = new Dice(_random, 2, 6, 0);
         combat = new();
     }
-    public Position Update(ConsoleKeyInfo cki, LevelData levelData)
+    public void Update(ConsoleKeyInfo cki, LevelData levelData)
     {
         Position newPosition = NewPosition(cki);
 
@@ -31,7 +31,6 @@ internal class Player : LevelElement
             Position = newPosition;
             Draw();
         }
-        return Position;
     }
     private Position NewPosition(ConsoleKeyInfo cki)
     {
@@ -56,7 +55,6 @@ internal class Player : LevelElement
 
         return newPosition;
     }
-    //TODO: bättre metod/er GetNewpositionStatus???
     private bool GetNewPositionStatus(LevelData levelData, Position newPosition)
     {
         bool isOccupied = false;
@@ -78,7 +76,7 @@ internal class Player : LevelElement
         return isOccupied;
     }
 
-        public void Draw()
+    public void Draw()
     { 
         Console.ForegroundColor = Color;
         Console.SetCursorPosition(Position.X, Position.Y);

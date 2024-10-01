@@ -4,11 +4,11 @@ internal class Dice
     public readonly int NumberOfDice;
     public readonly int SidesPerDice;
     public readonly int Modifier;
-    private Random _random;
+    public readonly Random Random;
 
     public Dice(Random random, int numberOfDice, int sidesPerDice, int modifier)
     {
-        _random = random;
+        Random = random;
         NumberOfDice = numberOfDice;
         SidesPerDice = sidesPerDice;
         Modifier = modifier;
@@ -18,7 +18,7 @@ internal class Dice
         int result = Modifier;
         for (int i = 0; i < NumberOfDice; i++)
         {
-            result += _random.Next(1, SidesPerDice + 1);
+            result += Random.Next(1, SidesPerDice + 1);
         }
         return result;
     }

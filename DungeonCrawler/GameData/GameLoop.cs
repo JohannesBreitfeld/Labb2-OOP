@@ -39,7 +39,7 @@
                 break;
             }
 
-            playerPosition = player.Update(cki, LevelData);
+            player.Update(cki, LevelData);
 
             Enemy deadEnemy = null;
 
@@ -63,6 +63,8 @@
             }
             if (player.Health <= 0)
             {
+                player.Color = ConsoleColor.DarkGray;
+                player.Draw();
                 break;
             }
         }

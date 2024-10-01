@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-internal enum MovementDirection { left, right, up, down }
+﻿internal enum MovementDirection { left, right, up, down }
 
 internal class Rat : Enemy
 {

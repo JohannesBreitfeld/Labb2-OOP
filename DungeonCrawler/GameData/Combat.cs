@@ -15,10 +15,10 @@ internal class Combat
         Console.SetCursorPosition(0, row);
         Console.ForegroundColor = player.Color;
 
+        string attackMessage;
         if (enemy.Health <= 0)
         {
-            Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
-                $"(DEF: {enemy.DefenceDice} => {defenseThrow}), killing it instantly.");
+            attackMessage =  "killing it instantly.";
         }
         else
         {
@@ -26,35 +26,29 @@ internal class Combat
             {
                 case <= 0:
                     {
-                        Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
-                            $"(DEF: {enemy.DefenceDice} => {defenseThrow}), without wounding it.");
+                        attackMessage = "without wounding it.";
                         break;
                     }
-                case 1:
-                case 2:
-                case 3:
+                case 1:case 2:case 3:
                     {
-                        Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
-                            $"(DEF: {enemy.DefenceDice} => {defenseThrow}), slightly wounding it.");
+                        attackMessage = "slightly wounding it.";
                         break;
                     }
-                case 4:
-                case 5:
-                case 6:
+                case 4: case 5:case 6:
                     {
-                        Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
-                            $"(DEF: {enemy.DefenceDice} => {defenseThrow}), moderatly wounding it.");
+                        attackMessage = "moderately wounding it.";
                         break;
                     }
                 default:
                     {
-                        Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
-                            $"(DEF: {enemy.DefenceDice} => {defenseThrow}), severly wounding it.");
+                        attackMessage = "severly wounding it.";
                         break;
                     }
             }
-            Thread.Sleep(500);
         }
+        Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
+        $"(DEF: {enemy.DefenceDice} => {defenseThrow}), {attackMessage}");
+        Thread.Sleep(500);
 
     }
 
@@ -68,12 +62,12 @@ internal class Combat
             player.Health -= attackDamage;
         }
         Console.SetCursorPosition(0, row);
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = (attackDamage > 0) ? ConsoleColor.Red : ConsoleColor.Green;
 
+        string attackMessage;
         if (player.Health <= 0)
         {
-            Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
-                        $"(DEF: {player.DefenceDice} => {defenseThrow}), killing you instantly(GAME OVER).");
+            attackMessage = "killing you instantly(GAME OVER).";
         }
         else
         {
@@ -81,42 +75,29 @@ internal class Combat
             {
                 case <= 0:
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
-                            $"(DEF: {player.DefenceDice} => {defenseThrow}), but did not manage to do any damage.");
+                        attackMessage = "but did not manage to do any damage.";
                         break;
                     }
-                case 1:
-                case 2:
-                case 3:
+                case 1: case 2: case 3:
                     {
-                        Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
-                            $"(DEF: {player.DefenceDice} => {defenseThrow}), sligthly wounding you.");
+                        attackMessage = "sligthly wounding you.";
                         break;
                     }
-                case 4:
-                case 5:
-                case 6:
+                case 4: case 5: case 6:
                     {
-                        Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
-                            $"(DEF: {player.DefenceDice} => {defenseThrow}), moderately wounding you.");
+                        attackMessage = "moderately wounding you.";
                         break;
                     }
                 default:
                     {
-                        Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
-                            $"(DEF: {player.DefenceDice} => {defenseThrow}), severly wounding you.");
+                        attackMessage = "severly wounding you.";
                         break;
                     }
             }
         }
-
+        Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
+                          $"(DEF: {player.DefenceDice} => {defenseThrow}), {attackMessage}");
+        Thread.Sleep(500);
     }
-
-
-
-
-
-
 }
 

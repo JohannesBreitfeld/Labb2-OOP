@@ -1,5 +1,4 @@
-﻿
-internal class Snake : Enemy
+﻿internal class Snake : Enemy
 {
     public Snake(Position position)
     {
