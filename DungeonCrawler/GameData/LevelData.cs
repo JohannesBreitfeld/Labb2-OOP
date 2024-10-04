@@ -7,7 +7,6 @@ internal class LevelData
 
     public LevelData(string path)
     {
-        _elements = new List<LevelElement>();
         Path = path;
     }
     public Position Load()
@@ -16,7 +15,8 @@ internal class LevelData
         {
             throw new FileNotFoundException("File could not be found.", Path);
         }
-
+        _elements = new List<LevelElement>();
+        
         Position playerPosition = new Position(0, 0);
 
         string[] lines = File.ReadAllLines(Path);
@@ -40,6 +40,9 @@ internal class LevelData
                     case 's':
                         element = new Snake(new Position(x, y));
                         break;
+                    case '>':
+                        element = new DungeonExit(new Position(x, y));
+                        break;
                     case '@':
                         playerPosition.X = x;
                         playerPosition.Y = y;
@@ -54,7 +57,47 @@ internal class LevelData
         }
         return playerPosition;
     }
+    public Position Load(char[,] dungeon)
+    {
+        _elements = new List<LevelElement>();
 
+        Position playerPosition = new Position(0, 0);
+
+
+        for (int y = 3; y < dungeon.GetLength(0) + 3; y++) //Setting y to 3 to create an overhead
+        {
+            for (int x = 0; x < dungeon.GetLength(1); x++)
+            {
+                LevelElement element = null;
+
+                switch (dungeon[y-3,x])
+                {
+                    case '#':
+                        element = new Wall(new Position(x, y));
+                        break;
+                    case 'r':
+                        element = new Rat(new Position(x, y));
+                        break;
+                    case 's':
+                        element = new Snake(new Position(x, y));
+                        break;
+                    case '>':
+                        element = new DungeonExit(new Position(x, y));
+                        break;
+                    case '@':
+                        playerPosition.X = x;
+                        playerPosition.Y = y;
+                        break;
+                }
+
+                if (element != null)
+                {
+                    _elements.Add(element);
+                }
+            }
+        }
+        return playerPosition;
+    }
     public void Draw(Player player)
     {
         foreach (var element in Elements)

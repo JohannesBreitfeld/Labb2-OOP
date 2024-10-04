@@ -1,6 +1,9 @@
 ﻿
+using System;
+
 internal class Player : LevelElement
 {
+    public bool NextDungeon { get; set; } = false;
     public Random _random = new Random();
     public string Name { get; set; }
     public int Health { get; set; } = 100;
@@ -20,11 +23,18 @@ internal class Player : LevelElement
     public void Update(ConsoleKeyInfo cki, LevelData levelData)
     {
         Position newPosition = NewPosition(cki);
-
-        bool isNewPositionOccupied = GetNewPositionStatus(levelData, newPosition);
+        (bool IsOccupied, Enemy EnemyToAttack)newPositionStatus = CheckNewPosition(levelData, newPosition);
         bool hasMoved = !(newPosition.X == Position.X && newPosition.Y == Position.Y);
 
-        if (!isNewPositionOccupied && hasMoved)
+        if (newPositionStatus.EnemyToAttack != null)
+        {
+            combat.PlayerAttack(this, newPositionStatus.EnemyToAttack);
+            if (newPositionStatus.EnemyToAttack.Health > 0)
+            {
+                combat.EnemyAttack(this, newPositionStatus.EnemyToAttack);
+            }
+        }
+        if (!newPositionStatus.IsOccupied && hasMoved)
         {
             Console.SetCursorPosition(Position.X, Position.Y);
             Console.Write(' ');
@@ -55,9 +65,10 @@ internal class Player : LevelElement
 
         return newPosition;
     }
-    private bool GetNewPositionStatus(LevelData levelData, Position newPosition)
+    private ValueTuple<bool, Enemy> CheckNewPosition(LevelData levelData, Position newPosition)
     {
         bool isOccupied = false;
+        Enemy enemyToAttack = null;
         foreach (var element in levelData.Elements)
         {
             if (element.Position.X == newPosition.X && element.Position.Y == newPosition.Y)
@@ -65,15 +76,16 @@ internal class Player : LevelElement
                 isOccupied = true;
                 if (element is Enemy enemy)
                 {
-                    combat.PlayerAttack(this, enemy);
-                    if (enemy.Health > 0)
-                    {
-                        combat.EnemyAttack(this, enemy);
-                    }
+                    enemyToAttack = enemy;
                 } 
+                else if (element is DungeonExit)
+                {
+                    NextDungeon = true;
+                }
             }
         }
-        return isOccupied;
+        var NewPositionStatus = (isOccupied,enemyToAttack);
+        return NewPositionStatus;
     }
 
     public void Draw()

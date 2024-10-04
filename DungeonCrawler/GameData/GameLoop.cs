@@ -1,9 +1,13 @@
 ﻿internal class GameLoop
 {
+    public Position PlayerPosition { get; set; }
+    public Player Player { get; set; }
     public GameLoop(LevelData levelData, string playerName)
     {
         LevelData = levelData;
         PlayerName = playerName;
+        PlayerPosition = LevelData.Load();
+        Player = new(PlayerPosition, PlayerName);
     }
 
     public LevelData LevelData { get; }
@@ -12,20 +16,19 @@
     public void Run()
     {
         Console.CursorVisible = false;
-        Position playerPosition = LevelData.Load();
-        Player player = new(playerPosition, PlayerName);
+        Console.Clear();
 
-        LevelData.Draw(player);
-        player.Draw();
+        LevelData.Draw(Player);
+        Player.Draw();
 
         int turnCounter = 0;
-
-        while (true)
+       
+        while (Player.Health > 0 && Player.NextDungeon == false)
         {
             turnCounter++;
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write($"{player.Name}  -  HP: {player.Health}/100  -  Turn: {turnCounter}".PadRight(65, ' '));
+            Console.Write($"{Player.Name}  -  HP: {Player.Health}/100  -  Turn: {turnCounter}".PadRight(65, ' '));
             Console.ResetColor();
             Console.Write($"Press ESC to quit" + Environment.NewLine);
 
@@ -39,17 +42,17 @@
                 break;
             }
 
-            player.Update(cki, LevelData);
+            Player.Update(cki, LevelData);
 
             Enemy deadEnemy = null;
 
             foreach (var element in LevelData.Elements)
             {
-                element.Draw(player);
+                element.Draw(Player);
 
                 if (element is Enemy enemy)
                 {
-                    enemy.Update(player, LevelData);
+                    enemy.Update(Player, LevelData);
 
                     if (enemy.Health <= 0)
                     {
@@ -61,12 +64,19 @@
             {
                 LevelData.RemoveEnemy(deadEnemy);
             }
-            if (player.Health <= 0)
-            {
-                player.Color = ConsoleColor.DarkGray;
-                player.Draw();
-                break;
-            }
+        }
+        if (Player.NextDungeon == false) // if game over
+        {
+            Player.Color = ConsoleColor.DarkGray;
+            Player.Draw();
+        }
+        else // if player should move to a new dungeon
+        {
+            ProceduallyGeneratingDungeons pcd = new(20, 60);
+            pcd.GenerateNewDungeon();
+            Player.Position = LevelData.Load(pcd.Dungeon);
+            Player.NextDungeon = false;
+            Run();
         }
     }
 }

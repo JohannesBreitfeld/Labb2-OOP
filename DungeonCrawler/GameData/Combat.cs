@@ -47,9 +47,8 @@ internal class Combat
             }
         }
         Console.WriteLine($"You (ATK: {player.AttackDice} => {attackThrow}) attacked the {enemy.Name} " +
-        $"(DEF: {enemy.DefenceDice} => {defenseThrow}), {attackMessage}");
-        Thread.Sleep(500);
-
+        $"(DEF: {enemy.DefenceDice} => {defenseThrow}), {attackMessage}".PadRight(100));
+        if (row == 1) Thread.Sleep(500);
     }
 
     public void EnemyAttack(Player player, Enemy enemy, int row = 2)
@@ -96,8 +95,8 @@ internal class Combat
             }
         }
         Console.WriteLine($"The {enemy.Name} (ATK: {enemy.AttackDice} => {attackThrow}) attacked you " +
-                          $"(DEF: {player.DefenceDice} => {defenseThrow}), {attackMessage}");
-        Thread.Sleep(500);
+                          $"(DEF: {player.DefenceDice} => {defenseThrow}), {attackMessage}".PadRight(100));
+        if (row == 1) Thread.Sleep(500);
     }
 }
 

@@ -1,11 +1,11 @@
 ﻿
-internal class Wall : LevelElement
+internal class DungeonExit : LevelElement
 {
-    public Wall(Position position)
+    public DungeonExit(Position position)
     {
         Position = position;
-        ElementDesign = '#';
-        Color = ConsoleColor.Gray;
+        ElementDesign = '>';
+        Color = ConsoleColor.DarkYellow;
     }
     public override void Draw(Player player)
     {
