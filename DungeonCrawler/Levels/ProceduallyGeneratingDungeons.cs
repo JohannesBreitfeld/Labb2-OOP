@@ -16,7 +16,7 @@ internal class ProceduallyGeneratingDungeons
     
     public void GenerateNewDungeon()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             RandomWalk();
             CreateCorridor();
@@ -24,7 +24,7 @@ internal class ProceduallyGeneratingDungeons
         AddElements();
     }
     
-    public char[,] CreateBaseLayout(int height, int width)
+    private char[,] CreateBaseLayout(int height, int width)
     {
         int Height = height;
         int Width = width;
@@ -41,7 +41,7 @@ internal class ProceduallyGeneratingDungeons
         return baseLayout;
     }
 
-    public void RandomWalk()
+    private void RandomWalk()
     {
         int steps = Random.Next(70, 120);
 
@@ -63,7 +63,7 @@ internal class ProceduallyGeneratingDungeons
         }
     }
 
-    public ValueTuple<int, int> Nextstep(int y, int x)
+    private ValueTuple<int, int> Nextstep(int y, int x)
     {
         Direction WalkDirection = (Direction)Random.Next(0, 4);
 
@@ -85,9 +85,9 @@ internal class ProceduallyGeneratingDungeons
         (int, int) nextStep = (y, x);
         return nextStep;
     }
-    public void CreateCorridor()
+    private void CreateCorridor()
     {
-        int corridorLength = 12;
+        int corridorLength = 15;
         Direction CorridorDirection = (Direction)Random.Next(0, 4);
 
         switch (CorridorDirection)
@@ -150,7 +150,7 @@ internal class ProceduallyGeneratingDungeons
                 break;
         }
     }
-    public void AddElements()
+    private void AddElements()
     {
         int numberOfRats = Random.Next(8, 16);
         int numberOfSnakes = Random.Next(5, 11);

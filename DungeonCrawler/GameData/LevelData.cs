@@ -13,7 +13,8 @@ internal class LevelData
     {
         if (!File.Exists(Path))
         {
-            throw new FileNotFoundException("File could not be found.", Path);
+            Console.WriteLine($"File could not be found: {Path}");
+            Console.ReadLine();
         }
         _elements = new List<LevelElement>();
         
