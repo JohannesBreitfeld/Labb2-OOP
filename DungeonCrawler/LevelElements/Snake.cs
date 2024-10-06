@@ -30,7 +30,7 @@
             Console.Write(' ');
             Position = newPosition;
         }
-            Draw(player);
+        Draw(player);
     }
 
     private Position GetNewPosition(Player player, bool isCloserHorizontalThanVertical)

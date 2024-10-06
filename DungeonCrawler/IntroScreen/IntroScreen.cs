@@ -19,12 +19,12 @@
             return;
         }
     }
+
     public static string GetPlayerName()
     {
         Console.Write("Enter your name: ".PadLeft(48));
         string name = Console.ReadLine();
         return name;
-
     }
 }
 

@@ -26,18 +26,14 @@ internal class ProceduallyGeneratingDungeons
     
     private char[,] CreateBaseLayout(int height, int width)
     {
-        int Height = height;
-        int Width = width;
-
-        char[,] baseLayout = new char[Height, Width];
-        for (int i = 0; i < Height; i++)
+        char[,] baseLayout = new char[height, width];
+        for (int i = 0; i < height; i++)
         {
-            for (int j = 0; j < Width; j++)
+            for (int j = 0; j < width; j++)
             {
                 baseLayout[i, j] = '#';
             }
         }
-
         return baseLayout;
     }
 
@@ -47,7 +43,6 @@ internal class ProceduallyGeneratingDungeons
 
         for (int i = 0; i < steps; i++)
         {
-
             var nextstep = Nextstep(previousY, previousX);
 
             bool isYInRange = 0 < nextstep.Item1 && nextstep.Item1 < Dungeon.GetLength(0) - 1;
@@ -85,6 +80,7 @@ internal class ProceduallyGeneratingDungeons
         (int, int) nextStep = (y, x);
         return nextStep;
     }
+ 
     private void CreateCorridor()
     {
         int corridorLength = 15;

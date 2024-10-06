@@ -64,7 +64,6 @@ internal class LevelData
 
         Position playerPosition = new Position(0, 0);
 
-
         for (int y = 3; y < dungeon.GetLength(0) + 3; y++) //Setting y to 3 to create an overhead
         {
             for (int x = 0; x < dungeon.GetLength(1); x++)

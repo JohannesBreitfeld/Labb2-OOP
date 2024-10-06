@@ -1,7 +1,4 @@
-﻿
-using System;
-
-internal class Player : LevelElement
+﻿internal class Player : LevelElement
 {
     public bool NextDungeon { get; set; } = false;
     public Random _random = new Random();
@@ -10,6 +7,7 @@ internal class Player : LevelElement
     public Dice AttackDice { get; } 
     public Dice DefenceDice { get; }
     public Combat combat { get; }
+    public int MaxHealth { get; }
     public Player(Position position, string name)
     {
         Position = position;
@@ -19,6 +17,7 @@ internal class Player : LevelElement
         AttackDice = new Dice(_random, 2, 6, 2);
         DefenceDice = new Dice(_random, 2, 6, 0);
         combat = new();
+        MaxHealth = Health;
     }
     public void Update(ConsoleKeyInfo cki, LevelData levelData)
     {

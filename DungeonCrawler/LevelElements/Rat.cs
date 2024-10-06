@@ -34,7 +34,7 @@ internal class Rat : Enemy
             Console.Write(' ');
             Position = newPosition;
         }
-            Draw(player);
+        Draw(player);
     }
 
     private Position GetNewPosition(MovementDirection direction)

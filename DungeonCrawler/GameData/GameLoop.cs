@@ -2,12 +2,14 @@
 {
     public Position PlayerPosition { get; set; }
     public Player Player { get; set; }
+    public int TurnCounter { get; set; }
     public GameLoop(LevelData levelData, string playerName)
     {
         LevelData = levelData;
         PlayerName = playerName;
         PlayerPosition = LevelData.Load();
         Player = new(PlayerPosition, PlayerName);
+        TurnCounter = 0;
     }
 
     public LevelData LevelData { get; }
@@ -21,17 +23,14 @@
         LevelData.Draw(Player);
         Player.Draw();
 
-        int turnCounter = 0;
-       
         while (Player.Health > 0 && Player.NextDungeon == false)
         {
-            turnCounter++;
+            TurnCounter++;
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write($"{Player.Name}  -  HP: {Player.Health}/100  -  Turn: {turnCounter}".PadRight(65, ' '));
+            Console.Write($"{Player.Name}  -  HP: {Player.Health}/{Player.MaxHealth}  -  Turn: {TurnCounter}".PadRight(65, ' '));
             Console.ResetColor();
             Console.Write($"Press ESC to quit" + Environment.NewLine);
-
 
             ConsoleKeyInfo cki = Console.ReadKey(true);
             Console.WriteLine("".PadLeft(100, ' '));
@@ -41,19 +40,15 @@
             {
                 break;
             }
-
             Player.Update(cki, LevelData);
 
             Enemy deadEnemy = null;
-
             foreach (var element in LevelData.Elements)
             {
                 element.Draw(Player);
-
                 if (element is Enemy enemy)
                 {
                     enemy.Update(Player, LevelData);
-
                     if (enemy.Health <= 0)
                     {
                         deadEnemy = enemy;
